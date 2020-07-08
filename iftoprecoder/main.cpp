@@ -16,7 +16,7 @@ int main(int narg,char** args)
 	if(narg<2)return 0;
 
 	char cmd[10240]={0};
-	sprintf(cmd,"iftop -n -t -F %s/255.255.255.255 |grep \"=\"",args[1]);
+	sprintf(cmd,"iftop -n -t -F %s/255.255.255.255",args[1]);
 	Log("cmd=%s\n",cmd);
 	FILE* fp=0;
 #ifdef _WIN32
