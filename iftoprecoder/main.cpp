@@ -16,7 +16,7 @@ int main(int narg,char** args)
 	if(narg<2)return 0;
 
 	char cmd[10240]={0};
-	sprintf(cmd,"%smyiftop -n -t -F %s/255.255.255.255",GetCurAppPathA(),args[1]);
+	sprintf(cmd,"%smyiftop -n -t ",GetCurAppPathA(),args[1]);
 	Log("cmd=%s\n",cmd);
 	FILE* fp=0;
 #ifdef _WIN32
@@ -39,6 +39,7 @@ int main(int narg,char** args)
 		fgets(cmd,10240,fp);
 		p=strstr(cmd,"<=");
 		if(!p)continue;
+		if(!strstr(cmd,args[1]))continue;
 		p+=2;
 		sscanf(p,"%s",oustr);
 		//Total send rate:
@@ -51,7 +52,7 @@ int main(int narg,char** args)
 		while(!strstr(cmd,"Total receive rate:"))fgets(cmd,10240,fp);
 		sscanf(strstr(cmd,"Total receive rate:")+strlen("Total receive rate:"),"%s",totalrcv);
 		
-		Log("%s(in/out)\t%s\t%s\ttotal=%s\t%s",args[1],instr,oustr,totalrcv,totalsnd);
+		Log("%s(in/out)\t%s\t%s\ttotal(rcv/snd)=%s\t%s",args[1],oustr,instr,totalrcv,totalsnd);
 	}
 	fclose(fp);
 	return 0;
