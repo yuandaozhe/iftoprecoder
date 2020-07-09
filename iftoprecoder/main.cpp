@@ -41,7 +41,17 @@ int main(int narg,char** args)
 		if(!p)continue;
 		p+=2;
 		sscanf(p,"%s",oustr);
-		Log("%s\t%s\t%s",args[1],instr,oustr);
+		//Total send rate:
+		//Total receive rate:
+
+		char totalsnd[128]={0};
+		char totalrcv[128]={0};
+		while(!strstr(cmd,"Total send rate:"))fgets(cmd,10240,fp);
+		sscanf(strstr(cmd,"Total send rate:")+strlen("Total send rate:"),"%s",totalsnd);
+		while(!strstr(cmd,"Total receive rate:"))fgets(cmd,10240,fp);
+		sscanf(strstr(cmd,"Total receive rate:")+strlen("Total receive rate:"),"%s",totalrcv);
+		
+		Log("%s(in/out)\t%s\t%s\ttotal=%s\t%s",args[1],instr,oustr,totalrcv,totalsnd);
 	}
 	fclose(fp);
 	return 0;
